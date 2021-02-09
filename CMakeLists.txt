@@ -16,8 +16,23 @@ add_subdirectory("lib/sfml")
 set(SFML_INCS "lib/sfml/include")
 link_directories("${CMAKE_BINARY_DIR}/lib/sfml/lib")
 
-#### Practical 1 ####
-file(GLOB_RECURSE SOURCES lab1/*.cpp lab/*.h)
-add_executable(LAB1 ${SOURCES})
-target_include_directories(LAB1 PRIVATE ${SFML_INCS})
-target_link_libraries(LAB1 sfml-graphics)
+#### TRY including res folder
+include_directories(res)
+
+## Practical 1
+file(GLOB_RECURSE SOURCES 1_plain_main/*.cpp 1_plain_main/*.h)
+add_executable(1_PLAIN_MAIN ${SOURCES})
+target_include_directories(1_PLAIN_MAIN PRIVATE ${SFML_INCS})
+target_link_libraries(1_PLAIN_MAIN sfml-graphics)
+
+## Pong
+file(GLOB_RECURSE SOURCES 2_pong/*.cpp 2_pong/*.h)
+add_executable(2_PONG ${SOURCES} )
+target_include_directories(2_PONG SYSTEM PRIVATE ${SFML_INCS})
+target_link_libraries(2_PONG sfml-graphics)
+
+## Space invaders
+file(GLOB_RECURSE SOURCES 3_space_inv/*.cpp 3_space_inv/*.h)
+add_executable(3_SPACE_INV ${SOURCES} )
+target_include_directories(3_SPACE_INV SYSTEM PRIVATE ${SFML_INCS})
+target_link_libraries(3_SPACE_INV sfml-graphics)
