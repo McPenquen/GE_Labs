@@ -1,32 +1,57 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "ship.h"
+#include "game.h"
 
 using namespace sf;
 using namespace std;
 
-// Window settings
-const int gameWidth = 800;
-const int gameHeight = 600;
-
 // Graphics
-Texture sprintsheet;
-Sprite invader;
+Texture spritesheet;
+
+// All ships
+vector<Ship*> ships;
 
 void Load() {
-	if (!sprintsheet.loadFromFile("res/sprints/invaders_sheet.png")) {
+	if (!spritesheet.loadFromFile("res/sprints/invaders_sheet.png")) {
 		cerr << "Failed to load sprintsheet" << endl;
 	}
-	invader.setTexture(sprintsheet);
-	invader.setTextureRect(IntRect(0, 0, 32, 32));
+
+	Invader::direction = true;
+	Invader::speed = 100.0f;
+
+	for (int i = 0; i < invaders_rows; i++) {
+		for (int j = 0; j < invaders_columns; j++) {
+			Invader* inv = new Invader(IntRect(i * 32, 0, 32, 32), { float(20 + j * 32), float(20 + i * 32)});
+			ships.push_back(inv);
+		}
+	}
+
+	Player* p = new Player();
+	ships.push_back(p);
 }
 
 
 void Update(RenderWindow& window) {
+	// Get delta time
+	static Clock clock;
+	float dt = clock.restart().asSeconds();
 
+	// ESC quit
+	if (Keyboard::isKeyPressed(Keyboard::Escape)) {
+		window.close();
+	}
+	
+	// Update all ships
+	for (auto &s : ships) {
+		s->Update(dt);
+	}
 }
 
 void Render(RenderWindow& window) {
-	window.draw(invader);
+	for (const auto s : ships) {
+		window.draw(*s);
+	}
 }
 
 int main() {
