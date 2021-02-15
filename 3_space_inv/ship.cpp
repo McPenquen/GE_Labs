@@ -1,5 +1,6 @@
 #include "ship.h"
 #include "game.h"
+#include "bullet.h"
 
 using namespace sf;
 using namespace std;
@@ -18,6 +19,19 @@ void Ship::Update(const float &dt) {}
 Ship::~Ship() = default;
 
 void Ship::moveDown() {}
+
+void Ship::Explode() {
+	setTextureRect(IntRect(128, 32, 32, 32));
+	_exploded = true;
+}
+
+bool Ship::is_exploded() const {
+	return _exploded;
+}
+
+bool Ship::is_player() const {
+	return _player;
+}
 
 // Invaders
 Invader::Invader() : Ship() {}
@@ -64,4 +78,9 @@ void Player::Update(const float& dt) {
 		direction++;
 	}
 	move(direction * 300.f * dt, 0);
+
+	if (Keyboard::isKeyPressed(Keyboard::Space)) {
+		Bullet::Fire(getPosition(), false);
+	}
+
 }

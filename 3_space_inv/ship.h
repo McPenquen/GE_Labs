@@ -9,6 +9,8 @@ protected:
 	IntRect _sprite;
 	// Default constructor
 	Ship();
+	bool _exploded = false;
+	bool _player = false;
 public:
 	// Constructor with a sprite
 	explicit Ship(IntRect ir);
@@ -18,6 +20,9 @@ public:
 	virtual void Update(const float& dt);
 	// Virtual Move down
 	virtual void moveDown();
+	bool is_exploded() const;
+	virtual void Explode();
+	virtual bool is_player() const;
 };
 
 // Invader
@@ -33,6 +38,8 @@ public:
 
 // Player
 class Player : public Ship {
+protected:
+	bool _player = true;
 public:
 	Player();
 	void Update(const float &dt) override;
