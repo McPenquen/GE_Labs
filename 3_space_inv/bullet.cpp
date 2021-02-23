@@ -1,10 +1,14 @@
 #include "bullet.h"
 #include "game.h"
+#include <iostream>
 
 using namespace sf;
 using namespace std;
 
 Bullet::Bullet() {}
+
+unsigned char Bullet::bulletPointer;
+Bullet Bullet::bullets[256];
 
 void Bullet::Update(const float& dt) {
 	for (auto& b : bullets) {
@@ -23,6 +27,7 @@ void Bullet::Fire(const Vector2f& pos, const bool mode) {
 	bullets[bulletPointer].setTexture(spritesheet);
 	bullets[bulletPointer].setTextureRect(mode ? IntRect(64, 32, 32, 32) : IntRect(32, 32, 32, 32));
 	bullets[bulletPointer].setOrigin(16, 16);
+	bullets[bulletPointer]._mode = mode;
 	bullets[bulletPointer].setPosition(pos);
 }
 
@@ -35,10 +40,10 @@ void Bullet::_Update(const float& dt) {
 		const FloatRect boundingBox = getGlobalBounds();
 
 		for (auto s : ships) {
-			if (!_mode && s->is_player()) {
+			if (!_mode && (s->is_player()==true)) {
 				continue;
 			}
-			if (_mode && !s->is_player()) {
+			if (_mode && (s->is_player()==false)) {
 				continue;
 			}
 			if (!s->is_exploded() && s->getGlobalBounds().intersects(boundingBox)) {

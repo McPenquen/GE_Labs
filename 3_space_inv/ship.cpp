@@ -29,12 +29,10 @@ bool Ship::is_exploded() const {
 	return _exploded;
 }
 
-bool Ship::is_player() const {
-	return _player;
-}
-
 // Invaders
-Invader::Invader() : Ship() {}
+Invader::Invader() : Ship() {
+	_player = false;
+}
 
 Invader::Invader(IntRect ir, Vector2f pos) : Ship(ir) {
 	setOrigin(16, 16);
@@ -52,6 +50,14 @@ void Invader::Update(const float &dt) {
 			ships[i]->moveDown();
 		}
 	}
+
+	static float firetime = 0.f;
+	firetime -= dt;
+
+	if (firetime <= 0 && rand() % 100 == 0) {
+		Bullet::Fire(getPosition(), true);
+		firetime = 4.0f + (rand() % 60);
+	}
 }
 
 bool Invader::direction;
@@ -61,9 +67,14 @@ void Invader::moveDown() {
 	move(0, 24);
 }
 
+bool Ship::is_player() {
+	return _player;
+};
+
 // Player
 Player::Player() : Ship(IntRect(160, 32, 32, 32)) {
 	setPosition({gameHeight * 0.5f, gameHeight -32.f});
+	_player = true;
 }
 
 void Player::Update(const float& dt) {
@@ -79,8 +90,11 @@ void Player::Update(const float& dt) {
 	}
 	move(direction * 300.f * dt, 0);
 
-	if (Keyboard::isKeyPressed(Keyboard::Space)) {
-		Bullet::Fire(getPosition(), false);
-	}
+	static float firetime = 0.0f;
+	firetime -= dt;
 
+	if (firetime <= 0 && Keyboard::isKeyPressed(Keyboard::Space)) {
+		Bullet::Fire(getPosition(), false);
+		firetime = 0.7f;
+	}
 }

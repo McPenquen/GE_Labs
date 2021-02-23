@@ -22,7 +22,7 @@ public:
 	virtual void moveDown();
 	bool is_exploded() const;
 	virtual void Explode();
-	virtual bool is_player() const;
+	bool is_player();
 };
 
 // Invader
@@ -38,8 +38,6 @@ public:
 
 // Player
 class Player : public Ship {
-protected:
-	bool _player = true;
 public:
 	Player();
 	void Update(const float &dt) override;
