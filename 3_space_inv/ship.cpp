@@ -80,7 +80,6 @@ Player::Player() : Ship(IntRect(160, 32, 32, 32)) {
 void Player::Update(const float& dt) {
 	Ship::Update(dt);
 
-	// Handle paddle 1 movement
 	float direction = .0f;
 	if (Keyboard::isKeyPressed(Keyboard::Left) && (getPosition().x > 16)) {
 		direction--;

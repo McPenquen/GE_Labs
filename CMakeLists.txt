@@ -36,3 +36,9 @@ file(GLOB_RECURSE SOURCES 3_space_inv/*.cpp 3_space_inv/*.h)
 add_executable(3_SPACE_INV ${SOURCES} )
 target_include_directories(3_SPACE_INV SYSTEM PRIVATE ${SFML_INCS})
 target_link_libraries(3_SPACE_INV sfml-graphics)
+
+## Tile engine
+file(GLOB_RECURSE SOURCES 4_tile_engine/*.cpp 4_tile_engine/*.h)
+add_executable(4_TILE_ENGINE ${SOURCES} )
+target_include_directories(4_TILE_ENGINE SYSTEM PRIVATE ${SFML_INCS})
+target_link_libraries(4_TILE_ENGINE sfml-graphics)
