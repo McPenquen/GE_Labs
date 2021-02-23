@@ -1,4 +1,5 @@
 #include "player.h"
+#include "LevelSystem.h"
 
 using namespace std;
 using namespace sf;
@@ -6,6 +7,7 @@ using namespace sf;
 Player::Player() : _speed(200.0f), Entity(make_unique<CircleShape>(25.f)) {
 	_shape->setFillColor(Color::Red);
 	_shape->setOrigin(Vector2f(25.f, 25.f));
+	//setPosition(LS::getStart());
 }
 
 void Player::Update(double dt) {
