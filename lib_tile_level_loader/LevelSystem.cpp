@@ -56,7 +56,7 @@ void LevelSystem::loadLevelFile(const string &path, float tileSize) {
                 temp_tiles.push_back(WALL);
                 break;
             case 's':
-                _startPos = {i - (w*h), h};
+                //_startPos = {i - (w*h), h};
                 temp_tiles.push_back(START);
                 break;
             case 'e':
@@ -129,7 +129,7 @@ void LevelSystem::Render(RenderWindow &window) {
         window.draw(*_sprites[i]);
     }
 }
-
+/*
 Vector2f LevelSystem::getStart() {
     return getTilePosition(_startPos);
-}
+}*/

@@ -24,7 +24,7 @@ public:
     static Vector2f getTilePosition(Vector2ul); // get screenspace coordinate of tile 
     static TILE getTileAt(Vector2f); // get tile at screenspace pos
 
-    static Vector2f getStart();
+    //static Vector2f getStart();
 
     static size_t getHeight();
     static size_t getWidth();
@@ -40,7 +40,7 @@ protected:
     static vector<unique_ptr<RectangleShape>> _sprites; // array of sfml sprites of each tile
     static void buildSprites();
 
-    static Vector2ul _startPos;
+    //static Vector2ul _startPos;
 
 private:
     LevelSystem() = delete;
