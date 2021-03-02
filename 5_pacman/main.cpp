@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "entity.h"
 #include "game.h"
+#include "system_renderer.h"
 
 using namespace sf;
 using namespace std;
@@ -39,8 +40,10 @@ void Update(RenderWindow& window) {
 }
 
 void Render(RenderWindow& window) {
-	// Render entities
-	em.Render(window);
+	Renderer::intialise(window);
+	// Render entities with entity manager
+	em.Render();
+	Renderer::render();
 }
 
 int main(){

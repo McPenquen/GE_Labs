@@ -16,7 +16,7 @@ public:
 	virtual ~Entity() = default;
 
 	virtual void Update(double dt);
-	virtual void Render(RenderWindow& window) const = 0;
+	virtual void Render() const = 0;
 
 	const Vector2f getPosition();
 	void setPosition(const Vector2f& pos);
@@ -29,7 +29,7 @@ private:
 public:
 	Player();
 	void Update(double dt) override;
-	void Render(RenderWindow& window) const override;
+	void Render() const override;
 };
 
 class Ghost : public Entity {
@@ -41,11 +41,11 @@ public:
 	Ghost();
 	Ghost(const Vector2f pos, Color col);
 	void Update(double dt) override;
-	void Render(RenderWindow& window) const override;
+	void Render() const override;
 };
 
 struct EntityManager {
 	vector<shared_ptr<Entity>> list;
 	void Update(double dt);
-	void Render(RenderWindow& window);
+	void Render();
 };

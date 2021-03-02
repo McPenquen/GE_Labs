@@ -1,5 +1,6 @@
 #include "entity.h"
 #include "game.h"
+#include "system_renderer.h"
 #include <iostream>
 
 using namespace std;
@@ -71,8 +72,8 @@ void Player::Update(double dt) {
 	Entity::Update(dt);
 }
 
-void Player::Render(RenderWindow& window) const {
-	window.draw(*_shape);
+void Player::Render() const {
+	Renderer::queue(_shape.get());
 }
 
 // Ghost
@@ -132,14 +133,14 @@ void Ghost::Update(double dt) {
 	Entity::Update(dt);
 }
 
-void Ghost::Render(RenderWindow& window) const {
-	window.draw(*_shape);
+void Ghost::Render() const {
+	Renderer::queue(_shape.get());
 }
 
 // EntityManager
-void EntityManager::Render(RenderWindow& window) {
+void EntityManager::Render() {
 	for (const auto& e : list) {
-		e->Render(window);
+		e->Render();
 	}
 }
 
