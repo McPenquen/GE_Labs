@@ -58,7 +58,7 @@ void Render(RenderWindow& window) {
 }
 
 int main() {
-	RenderWindow window(VideoMode(gameWidth, gameHeight), "I N V A D O R S");
+	RenderWindow window(VideoMode(gameWidth, gameHeight), "I N V A D E R S");
 	Load();
 	while (window.isOpen()) {
 		window.clear();

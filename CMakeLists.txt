@@ -53,3 +53,10 @@ file(GLOB_RECURSE SOURCES 4_tile_engine/*.cpp 4_tile_engine/*.h)
 add_executable(4_TILE_ENGINE ${SOURCES} )
 target_include_directories(4_TILE_ENGINE SYSTEM PRIVATE ${SFML_INCS})
 target_link_libraries(4_TILE_ENGINE lib_maths lib_tile_level_loader sfml-graphics)
+
+## Pac-man
+file(GLOB_RECURSE SOURCES 5_pacman/*.cpp 5_pacman/*.h)
+add_executable(5_PACMAN ${SOURCES} )
+target_include_directories(5_PACMAN SYSTEM PRIVATE ${SFML_INCS})
+target_link_libraries(5_PACMAN sfml-graphics)
+
