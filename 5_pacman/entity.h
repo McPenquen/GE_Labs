@@ -15,7 +15,7 @@ public:
 	Entity() = delete;
 	virtual ~Entity() = default;
 
-	virtual void Update(const float& dt);
+	virtual void Update(double dt);
 	virtual void Render(RenderWindow& window) const = 0;
 
 	const Vector2f getPosition();
@@ -28,7 +28,7 @@ private:
 	float _speed;
 public:
 	Player();
-	void Update(const float& dt) override;
+	void Update(double dt) override;
 	void Render(RenderWindow& window) const override;
 };
 
@@ -40,6 +40,12 @@ private:
 public:
 	Ghost();
 	Ghost(const Vector2f pos, Color col);
-	void Update(const float& dt) override;
+	void Update(double dt) override;
 	void Render(RenderWindow& window) const override;
+};
+
+struct EntityManager {
+	vector<shared_ptr<Entity>> list;
+	void Update(double dt);
+	void Render(RenderWindow& window);
 };

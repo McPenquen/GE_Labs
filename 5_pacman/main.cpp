@@ -5,23 +5,23 @@
 using namespace sf;
 using namespace std;
 
-// Entities
-vector<unique_ptr<Entity>> entities;
+// Entity manager
+EntityManager em;
 
 void Load() {
 	// Create ghosts
-	unique_ptr<Ghost> ghost1 = make_unique<Ghost>();
-	entities.push_back(move(ghost1));
-	unique_ptr<Ghost> ghost2 = make_unique<Ghost>(Vector2f(200.f, 200.f), Color::Magenta);
-	entities.push_back(move(ghost2));
-	unique_ptr<Ghost> ghost3 = make_unique<Ghost>(Vector2f(300.f, 400.f), Color::Blue);
-	entities.push_back(move(ghost3));
-	unique_ptr<Ghost> ghost4 = make_unique<Ghost>(Vector2f(400.f, 600.f), Color::Green);
-	entities.push_back(move(ghost4));
+	shared_ptr<Ghost> ghost1 = make_shared<Ghost>();
+	em.list.push_back(move(ghost1));
+	shared_ptr<Ghost> ghost2 = make_shared<Ghost>(Vector2f(200.f, 200.f), Color::Magenta);
+	em.list.push_back(move(ghost2));
+	shared_ptr<Ghost> ghost3 = make_shared<Ghost>(Vector2f(300.f, 400.f), Color::Blue);
+	em.list.push_back(move(ghost3));
+	shared_ptr<Ghost> ghost4 = make_shared<Ghost>(Vector2f(400.f, 600.f), Color::Green);
+	em.list.push_back(move(ghost4));
 
 	// Create player
-	unique_ptr<Player> player = make_unique<Player>();
-	entities.push_back(move(player));
+	shared_ptr<Player> player = make_shared<Player>();
+	em.list.push_back(move(player));
 }
 
 void Update(RenderWindow& window) {
@@ -35,16 +35,12 @@ void Update(RenderWindow& window) {
 	}
 
 	// Update entities
-	for (auto &e : entities) {
-		e->Update(dt);
-	}
+	em.Update(dt);
 }
 
 void Render(RenderWindow& window) {
 	// Render entities
-	for (const auto &e : entities) {
-		e->Render(window);
-	}
+	em.Render(window);
 }
 
 int main(){

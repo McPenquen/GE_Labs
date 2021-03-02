@@ -18,7 +18,7 @@ void Entity::setPosition(const Vector2f& pos) { _position = pos; }
 
 void Entity::move(const Vector2f& pos) { _position += pos; }
 
-void Entity::Update(const float& dt) {
+void Entity::Update(double dt) {
 	_shape->setPosition(_position);
 }
 
@@ -31,7 +31,7 @@ Player::Player() : _speed(200.0f), Entity(make_unique<CircleShape>(15.f)) {
 	this->setPosition(Vector2f(400.f, 400.f));
 }
 
-void Player::Update(const float& dt) {
+void Player::Update(double dt) {
 	Vector2f direction = { 0.f, 0.f };
 	if (Keyboard::isKeyPressed(Keyboard::Left)) {
 		direction.x = -_speed * dt;
@@ -90,16 +90,22 @@ Ghost::Ghost(const Vector2f pos, Color col) : Entity(make_unique<CircleShape>(15
 	this->setPosition(pos);
 }
 
-void Ghost::Update(const float& dt) {
+void Ghost::Update(double dt) {
 	// Random movement generation
 	if (directionChangeTime <= 0.0f) {
-		float randSign = getRandomNumber(2, 0) == 1 ? -1.f : 1.f;
-		movementDirection = {_speed * dt * randSign,
-			_speed * dt * randSign };
+		float randSign1 = getRandomNumber(2, 0) == 1 ? -1.f : 1.f;
+		float randSign2 = getRandomNumber(2, 0) == 1 ? -1.f : 1.f;
+		float zeroChance1 = getRandomNumber(2, 0) == 1 ? 0.f : 1.f;
+		float zeroChance2 = 1.f;
+		if (zeroChance1 != 0.0f) {
+			zeroChance2 = getRandomNumber(2, 0) == 1 ? 0.f : 1.f;
+		}
+		movementDirection = {_speed * float(dt) * randSign1 * zeroChance1,
+			_speed * float(dt) * randSign2 * zeroChance2};
 		directionChangeTime = getRandomNumber(5, 1);
 	}
-	cout << movementDirection.x << ", "<< movementDirection.y << endl;
-	directionChangeTime -= dt;
+
+	directionChangeTime -= float(dt);
 	// Colision detected movement
 	if (getPosition().x - 15.f > 0 && 
 		getPosition().x + 15.f < gameWidth && 
@@ -128,4 +134,17 @@ void Ghost::Update(const float& dt) {
 
 void Ghost::Render(RenderWindow& window) const {
 	window.draw(*_shape);
+}
+
+// EntityManager
+void EntityManager::Render(RenderWindow& window) {
+	for (const auto& e : list) {
+		e->Render(window);
+	}
+}
+
+void EntityManager::Update(double dt) {
+	for (auto& e : list) {
+		e->Update(dt);
+	}
 }
