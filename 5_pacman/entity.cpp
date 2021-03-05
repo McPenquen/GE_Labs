@@ -73,7 +73,7 @@ void Player::Update(double dt) {
 }
 
 void Player::Render() const {
-	Renderer::queue(_shape.get());
+	Renderer::Queue(_shape.get());
 }
 
 // Ghost
@@ -101,8 +101,8 @@ void Ghost::Update(double dt) {
 		if (zeroChance1 != 0.0f) {
 			zeroChance2 = getRandomNumber(2, 0) == 1 ? 0.f : 1.f;
 		}
-		movementDirection = {_speed * float(dt) * randSign1 * zeroChance1,
-			_speed * float(dt) * randSign2 * zeroChance2};
+		movementDirection = {_speed * randSign1 * zeroChance1,
+			_speed * randSign2 * zeroChance2};
 		directionChangeTime = getRandomNumber(5, 1);
 	}
 
@@ -112,7 +112,7 @@ void Ghost::Update(double dt) {
 		getPosition().x + 15.f < gameWidth && 
 		getPosition().y - 15.f > 0 &&
 		getPosition().y + 15.f < gameHeight) {
-		move(movementDirection);
+		move(Vector2f(movementDirection.x * dt, movementDirection.y * dt));
 	}
 	else {
 		if (getPosition().x - 15.f <= 0 && movementDirection.x < 0) {
@@ -127,14 +127,14 @@ void Ghost::Update(double dt) {
 		else if (getPosition().y + 15.f >= gameHeight && movementDirection.y > 0) {
 			movementDirection.y *= -1.f;
 		}
-		move(movementDirection);
+		move(Vector2f(movementDirection.x *dt, movementDirection.y *dt));
 	}
 
 	Entity::Update(dt);
 }
 
 void Ghost::Render() const {
-	Renderer::queue(_shape.get());
+	Renderer::Queue(_shape.get());
 }
 
 // EntityManager

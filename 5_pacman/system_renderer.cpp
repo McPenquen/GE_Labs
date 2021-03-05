@@ -7,19 +7,19 @@ using namespace sf;
 static queue<const Drawable*> sprites;
 static RenderWindow* rw;
 
-void Renderer::intialise(RenderWindow& r) { rw = &r; }
+void Renderer::Intialise(RenderWindow& r) { rw = &r; }
 
 RenderWindow& Renderer::getWindow() { return *rw; }
 
-void Renderer::shutdown() {
+void Renderer::Shutdown() {
 	while (!sprites.empty()) {
 		sprites.pop();
 	}
 }
 
-void Renderer::update(const double &) {}
+void Renderer::Update(const double &) {}
 
-void Renderer::render() {
+void Renderer::Render() {
 	if (rw == nullptr) {
 		throw("No render window set...");
 	}
@@ -29,4 +29,4 @@ void Renderer::render() {
 	}
 }
 
-void Renderer::queue(const Drawable* s) { sprites.push(s); }
+void Renderer::Queue(const Drawable* s) { sprites.push(s); }

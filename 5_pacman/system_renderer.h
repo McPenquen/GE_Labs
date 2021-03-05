@@ -4,11 +4,11 @@
 using namespace sf;
 
 namespace Renderer {
-	void intialise(RenderWindow&);
+	void Intialise(RenderWindow&);
 	RenderWindow& getWindow();
 
-	void shutdown();
-	void update(const double &);
-	void queue(const Drawable* s);
-	void render();
+	void Shutdown();
+	void Update(const double &);
+	void Queue(const Drawable* s);
+	void Render();
 };
