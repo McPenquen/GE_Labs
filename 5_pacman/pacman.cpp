@@ -1,6 +1,9 @@
 #include "pacman.h"
 #include "system_renderer.h"
 #include "game.h"
+#include "cmp_sprite.h"
+
+#define GHOSTS_COUNT 4
 
 shared_ptr<Scene> gameScene;
 shared_ptr<Scene> menuScene;
@@ -47,17 +50,28 @@ void GameScene::Load() {
 	text.setFont(font);
 	text.setCharacterSize(24);
 	text.setPosition((gameWidth * .4f) - (text.getLocalBounds().width * .4f), 0);
-	// Create ghosts
-	shared_ptr<Ghost> ghost1 = make_shared<Ghost>();
-	_ents.list.push_back(move(ghost1));
-	shared_ptr<Ghost> ghost2 = make_shared<Ghost>(Vector2f(200.f, 200.f), Color::Magenta);
-	_ents.list.push_back(move(ghost2));
-	shared_ptr<Ghost> ghost3 = make_shared<Ghost>(Vector2f(300.f, 400.f), Color::Blue);
-	_ents.list.push_back(move(ghost3));
-	shared_ptr<Ghost> ghost4 = make_shared<Ghost>(Vector2f(400.f, 600.f), Color::Green);
-	_ents.list.push_back(move(ghost4));
 
 	// Create player
-	shared_ptr<Player> player = make_shared<Player>();
+	auto player = make_shared<Entity>();
+	auto s = player->addComponent<ShapeComponent>();
+	s->setShape<sf::CircleShape>(12.f);
+	s->getShape().setFillColor(Color::Yellow);
+	s->getShape().setOrigin(Vector2f(12.f, 12.f));
 	_ents.list.push_back(move(player));
+
+	// Create ghosts
+	const Color ghost_cols[]{ {208, 62, 25},    // red Blinky
+							 {219, 133, 28},   // orange Clyde
+							 {70, 191, 238},   // cyan Inky
+							 {234, 130, 229} }; // pink Pinky
+
+	for (int i = 0; i < GHOSTS_COUNT; i++) {
+		auto ghost = make_shared<Entity>();
+		auto s1 = ghost->addComponent<ShapeComponent>();
+		s1->setShape<sf::CircleShape>(12.f);
+		s1->getShape().setFillColor(ghost_cols[i % 4]);
+		s1->getShape().setOrigin(Vector2f(12.f, 12.f));
+		_ents.list.push_back(ghost);
+	}
+
 }

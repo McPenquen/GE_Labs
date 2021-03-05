@@ -1,10 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include "lib_ecm.h"
 
 using namespace sf;
 using namespace std;
-
+/*
 class Entity {
 protected:
 	unique_ptr<Shape> _shape;
@@ -22,14 +23,14 @@ public:
 	void setPosition(const Vector2f& pos);
 	void move(const Vector2f& pos);
 };
-
+*/
 class Player : public Entity {
 private:
 	float _speed;
 public:
 	Player();
-	void Update(double dt) override;
-	void Render() const override;
+	//void Update(double dt) override;
+	//void Render() override;
 };
 
 class Ghost : public Entity {
@@ -39,9 +40,9 @@ private:
 	Vector2f movementDirection;
 public:
 	Ghost();
-	Ghost(const Vector2f pos, Color col);
-	void Update(double dt) override;
-	void Render() const override;
+	Ghost(Vector2f new_pos);
+	//void Update(double dt) override;
+	//void Render() override;
 };
 
 struct EntityManager {

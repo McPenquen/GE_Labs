@@ -27,6 +27,12 @@ add_library(lib_maths INTERFACE)
 target_sources(lib_maths INTERFACE "${CMAKE_SOURCE_DIR}/lib_maths/maths.h")
 target_include_directories(lib_maths INTERFACE "${CMAKE_SOURCE_DIR}/lib_maths" SYSTEM INTERFACE ${SFML_INCS})
 
+# ECM lib
+file(GLOB_RECURSE SOURCE_FILES lib_ecm/*.cpp lib_ecm/*.h)
+add_library(lib_ecm STATIC ${SOURCE_FILES})
+target_include_directories(lib_ecm INTERFACE "${CMAKE_SOURCE_DIR}/lib_ecm" )
+target_link_libraries(lib_ecm PRIVATE lib_maths)
+
 #### TRY including res folder
 include_directories(res)
 
@@ -58,5 +64,5 @@ target_link_libraries(4_TILE_ENGINE lib_maths lib_tile_level_loader sfml-graphic
 file(GLOB_RECURSE SOURCES 5_pacman/*.cpp 5_pacman/*.h)
 add_executable(5_PACMAN ${SOURCES} )
 target_include_directories(5_PACMAN SYSTEM PRIVATE ${SFML_INCS})
-target_link_libraries(5_PACMAN sfml-graphics)
+target_link_libraries(5_PACMAN lib_ecm sfml-graphics)
 

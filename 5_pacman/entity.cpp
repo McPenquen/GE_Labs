@@ -13,6 +13,7 @@ float getRandomNumber(int maxVal, int minVal) {
 }
 
 // Entity
+/*
 const Vector2f Entity::getPosition() { return _position; }
 
 void Entity::setPosition(const Vector2f& pos) { _position = pos; }
@@ -24,14 +25,12 @@ void Entity::Update(double dt) {
 }
 
 Entity::Entity(unique_ptr<Shape> s) : _shape(std::move(s)) {}
-
+*/
 // Player
-Player::Player() : _speed(200.0f), Entity(make_unique<CircleShape>(15.f)) {
-	_shape->setFillColor(Color::Yellow);
-	_shape->setOrigin(Vector2f(15.f, 15.f));
+Player::Player() : _speed(200.0f) {
 	this->setPosition(Vector2f(400.f, 400.f));
 }
-
+/*
 void Player::Update(double dt) {
 	Vector2f direction = { 0.f, 0.f };
 	if (Keyboard::isKeyPressed(Keyboard::Left)) {
@@ -71,26 +70,23 @@ void Player::Update(double dt) {
 
 	Entity::Update(dt);
 }
-
-void Player::Render() const {
+*/
+/*
+void Player::Render() {
 	Renderer::Queue(_shape.get());
 }
-
+*/
 // Ghost
 float Ghost::_speed = 100.f;
 
-Ghost::Ghost() : Entity(make_unique<CircleShape>(15.f)) {
-	_shape->setFillColor(Color::Red);
-	_shape->setOrigin(Vector2f(15.f, 15.f));
+Ghost::Ghost() {
 	this->setPosition(Vector2f(600.f, 500.f));
 }
 
-Ghost::Ghost(const Vector2f pos, Color col) : Entity(make_unique<CircleShape>(15.f)) {
-	_shape->setFillColor(col);
-	_shape->setOrigin(Vector2f(15.f, 15.f));
-	this->setPosition(pos);
+Ghost::Ghost(Vector2f new_pos) {
+	this->setPosition(new_pos);
 }
-
+/*
 void Ghost::Update(double dt) {
 	// Random movement generation
 	if (directionChangeTime <= 0.0f) {
@@ -132,11 +128,12 @@ void Ghost::Update(double dt) {
 
 	Entity::Update(dt);
 }
-
-void Ghost::Render() const {
+*/
+/*
+void Ghost::Render() {
 	Renderer::Queue(_shape.get());
 }
-
+*/
 // EntityManager
 void EntityManager::Render() {
 	for (const auto& e : list) {
