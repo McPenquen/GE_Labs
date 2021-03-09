@@ -13,7 +13,7 @@ Vector2f LevelSystem::_offset(0.0f, 0.0f);
 float LevelSystem::_tileSize(100.f);
 vector<unique_ptr<RectangleShape>> LevelSystem::_sprites;
 
-map<LevelSystem::TILE, Color> LevelSystem::_colours{ {WALL, Color::White}, {END, Color::Red}, {START, Color::Green}, {ENEMY, Color::Magenta} };
+map<LevelSystem::TILE, Color> LevelSystem::_colours{ {WALL, Color::White}, {END, Color::Red} };
 
 size_t LevelSystem::getHeight() {return _height;}
 size_t LevelSystem::getWidth() {return _width;}

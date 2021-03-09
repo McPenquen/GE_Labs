@@ -1,6 +1,6 @@
 #include "cmp_actor_movement.h"
 #include "game.h"
-//#include <LevelSystem.h>
+#include "LevelSystem.h"
 
 using namespace std;
 using namespace sf;
@@ -22,11 +22,16 @@ float ActorMovementComponent::getSpeed() const { return _speed; }
 
 void ActorMovementComponent::setSpeed(float new_speed) { _speed = new_speed; }
 
+bool ActorMovementComponent::validMove(const Vector2f& pos) {
+	return LS::getTileAt(pos) != LS::WALL;
+}
+
 void ActorMovementComponent::move(const Vector2f& p) {
 	auto pp = _parent->getPosition() + p;
 
-	//if(validMove(pp)) {}
-	_parent->setPosition(pp);
+	if (validMove(pp)) {
+		_parent->setPosition(pp);
+	}
 }
 
 void ActorMovementComponent::move(float x, float y) {
