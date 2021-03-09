@@ -30,7 +30,7 @@ Entity::Entity(unique_ptr<Shape> s) : _shape(std::move(s)) {}
 Player::Player() : _speed(200.0f) {
 	this->setPosition(Vector2f(400.f, 400.f));
 }
-/*
+
 void Player::Update(double dt) {
 	Vector2f direction = { 0.f, 0.f };
 	if (Keyboard::isKeyPressed(Keyboard::Left)) {
@@ -70,12 +70,11 @@ void Player::Update(double dt) {
 
 	Entity::Update(dt);
 }
-*/
-/*
+
 void Player::Render() {
-	Renderer::Queue(_shape.get());
+	Entity::Render();
 }
-*/
+
 // Ghost
 float Ghost::_speed = 100.f;
 

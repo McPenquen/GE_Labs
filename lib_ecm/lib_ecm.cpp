@@ -1,6 +1,10 @@
 #include "lib_ecm.h"
 
 // Entity
+Entity::Entity() {}
+
+Entity::~Entity() {}
+
 void Entity::Update(double dt) {
 	if (_alive) {
 		for (auto& c : _components) {
@@ -58,6 +62,12 @@ void Entity::setForDelete() {
 }
 
 // Component
+Component::Component() : _parent(nullptr) {}
+
+Component::~Component() {}
+
 bool Component::is_fordeletion() const {
 	return _fordeletion;
 }
+
+Component::Component(Entity* const p) : _parent(p) {}

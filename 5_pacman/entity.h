@@ -29,8 +29,8 @@ private:
 	float _speed;
 public:
 	Player();
-	//void Update(double dt) override;
-	//void Render() override;
+	void Update(double dt) override;
+	void Render() override;
 };
 
 class Ghost : public Entity {

@@ -57,6 +57,7 @@ void GameScene::Load() {
 	s->setShape<sf::CircleShape>(12.f);
 	s->getShape().setFillColor(Color::Yellow);
 	s->getShape().setOrigin(Vector2f(12.f, 12.f));
+	player->setPosition({200.f, 200.f});
 	_ents.list.push_back(move(player));
 
 	// Create ghosts
@@ -71,6 +72,7 @@ void GameScene::Load() {
 		s1->setShape<sf::CircleShape>(12.f);
 		s1->getShape().setFillColor(ghost_cols[i % 4]);
 		s1->getShape().setOrigin(Vector2f(12.f, 12.f));
+		ghost->setPosition({400.f + i * 20.f, 440.f});
 		_ents.list.push_back(ghost);
 	}
 

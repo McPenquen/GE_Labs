@@ -1,5 +1,5 @@
 #pragma once
-#include "maths.h"
+#include <SFML/Graphics.hpp>
 #include <algorithm>
 #include <memory>
 #include <typeindex>
@@ -38,7 +38,7 @@ public:
 
 	template <typename T, typename... Targs>
 	shared_ptr<T> addComponent(Targs... params) {
-		static_assert(is_base_pf<Component, T>::value, "T != component");
+		static_assert(is_base_of<Component, T>::value, "T != component");
 		shared_ptr<T> sp(make_shared<T>(this, params...));
 		_components.push_back(sp);
 		return sp;
