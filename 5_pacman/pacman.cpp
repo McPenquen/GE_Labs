@@ -3,6 +3,7 @@
 #include "game.h"
 #include "cmp_sprite.h"
 #include "cmp_actor_movement.h"
+#include "LevelSystem.h"
 
 #define GHOSTS_COUNT 4
 
@@ -41,6 +42,7 @@ void GameScene::Update(double dt) {
 }
 
 void GameScene::Render() {
+	LS::Render(Renderer::getWindow());
 	Renderer::Queue(&text);
 	Scene::Render();
 }
@@ -52,15 +54,18 @@ void GameScene::Load() {
 	text.setCharacterSize(24);
 	text.setPosition((gameWidth * .4f) - (text.getLocalBounds().width * .4f), 0);
 
+	// Load the level
+	LS::loadLevelFile("res/pacman.txt", 25.0f);
+
 	// Create player
-	auto player = make_shared<Entity>();
-	auto s = player->addComponent<ShapeComponent>();
+	auto pl = make_shared<Player>();
+	auto s = pl->addComponent<ShapeComponent>();
 	s->setShape<sf::CircleShape>(12.f);
 	s->getShape().setFillColor(Color::Yellow);
 	s->getShape().setOrigin(Vector2f(12.f, 12.f));
-	player->setPosition({200.f, 200.f});
-	player->addComponent<PlayerMovementComponent>();
-	_ents.list.push_back(move(player));
+	pl->addComponent<PlayerMovementComponent>();
+	_ents.list.push_back(move(pl));
+	player = _ents.list[_ents.list.size()-1];
 
 	// Create ghosts
 	const Color ghost_cols[]{ {208, 62, 25},    // red Blinky
@@ -69,14 +74,26 @@ void GameScene::Load() {
 							 {234, 130, 229} }; // pink Pinky
 
 	for (int i = 0; i < GHOSTS_COUNT; i++) {
-		auto ghost = make_shared<Entity>();
+		auto ghost = make_shared<Ghost>();
 		auto s1 = ghost->addComponent<ShapeComponent>();
 		s1->setShape<sf::CircleShape>(12.f);
 		s1->getShape().setFillColor(ghost_cols[i % 4]);
 		s1->getShape().setOrigin(Vector2f(12.f, 12.f));
-		ghost->setPosition({400.f + i * 20.f, 440.f});
 		ghost->addComponent<EnemyMovementComponent>();
 		_ents.list.push_back(ghost);
+		ghosts.push_back(_ents.list[_ents.list.size() - 1]);
 	}
 
+	this->Respawn();
+}
+
+void GameScene::Respawn() {
+	player->setPosition(LS::getTileOrigin(LS::findTiles(LS::START)[0]));
+	player->GetCompatibleComponent<ActorMovementComponent>()[0]->setSpeed(150.f);
+
+	auto ghost_spawns = LS::findTiles(LS::ENEMY);
+	for (auto& g : ghosts) {
+		g->setPosition(LS::getTileOrigin(ghost_spawns[rand() % ghost_spawns.size()]));
+		g->GetCompatibleComponent<ActorMovementComponent>()[0]->setSpeed(100.0f);
+	}
 }

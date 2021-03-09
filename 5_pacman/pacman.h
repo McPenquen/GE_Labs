@@ -26,6 +26,8 @@ private:
 	Font font;
 	Clock scoreClock;
 	void Respawn();
+	shared_ptr<Entity> player;
+	vector<shared_ptr<Entity>> ghosts;
 
 public:
 	GameScene() = default;

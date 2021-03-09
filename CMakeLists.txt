@@ -64,5 +64,5 @@ target_link_libraries(4_TILE_ENGINE lib_maths lib_tile_level_loader sfml-graphic
 file(GLOB_RECURSE SOURCES 5_pacman/*.cpp 5_pacman/*.h)
 add_executable(5_PACMAN ${SOURCES} )
 target_include_directories(5_PACMAN SYSTEM PRIVATE ${SFML_INCS})
-target_link_libraries(5_PACMAN lib_ecm sfml-graphics)
+target_link_libraries(5_PACMAN lib_ecm sfml-graphics lib_maths lib_tile_level_loader)
 

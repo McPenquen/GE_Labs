@@ -101,7 +101,7 @@ void EnemyMovementComponent::Update(double dt) {
 			_parent->getPosition().x + 15.f < gameWidth &&
 			_parent->getPosition().y - 15.f > 0 &&
 			_parent->getPosition().y + 15.f < gameHeight) {
-			move(Vector2f(movementDirection.x * dt, movementDirection.y * dt));
+			//move(Vector2f(movementDirection.x * dt, movementDirection.y * dt));
 		}
 		else {
 			if (_parent->getPosition().x - 15.f <= 0 && movementDirection.x < 0) {
@@ -116,7 +116,7 @@ void EnemyMovementComponent::Update(double dt) {
 			else if (_parent->getPosition().y + 15.f >= gameHeight && movementDirection.y > 0) {
 				movementDirection.y *= -1.f;
 			}
-			move(Vector2f(movementDirection.x * dt, movementDirection.y * dt));
+			//move(Vector2f(movementDirection.x * dt, movementDirection.y * dt));
 		}
 
 	}

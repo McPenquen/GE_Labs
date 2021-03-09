@@ -13,10 +13,24 @@ Vector2f LevelSystem::_offset(0.0f, 0.0f);
 float LevelSystem::_tileSize(100.f);
 vector<unique_ptr<RectangleShape>> LevelSystem::_sprites;
 
-map<LevelSystem::TILE, Color> LevelSystem::_colours{{WALL, Color::White}, {END, Color::Yellow}};
+map<LevelSystem::TILE, Color> LevelSystem::_colours{ {WALL, Color::White}, {END, Color::Red}, {START, Color::Green}, {ENEMY, Color::Magenta} };
 
 size_t LevelSystem::getHeight() {return _height;}
 size_t LevelSystem::getWidth() {return _width;}
+
+map<LevelSystem::TILE, vector<Vector2ul>> LevelSystem::_tile_positions;
+
+void LevelSystem::addTilePosition(TILE tile, Vector2ul pos) {
+    if (_tile_positions.find(tile) == _tile_positions.end()) {
+        vector<Vector2ul> oneList;
+        oneList.push_back(pos);
+        _tile_positions.insert({ tile, oneList });
+    }
+    else {
+        _tile_positions[tile].push_back(pos);
+    }
+
+}
 
 Color LevelSystem::getColor(LevelSystem::TILE t) {
     auto it = _colours.find(t);
@@ -51,24 +65,29 @@ void LevelSystem::loadLevelFile(const string &path, float tileSize) {
     vector<TILE> temp_tiles;
     for (int i = 0; i < buffer.size(); ++i) {
         const char c = buffer[i];
+        Vector2ul ulPos = w == 0 ? Vector2ul(i, 0) : Vector2ul(i - ((w+1)*h), h);
         switch (c) {
             case 'w':
+                addTilePosition(TILE::WALL, ulPos);
                 temp_tiles.push_back(WALL);
                 break;
             case 's':
-                //_startPos = {i - (w*h), h};
+                addTilePosition(TILE::START, ulPos);
                 temp_tiles.push_back(START);
                 break;
             case 'e':
+                addTilePosition(TILE::END, ulPos);
                 temp_tiles.push_back(END);
                 break;
             case ' ':
                 temp_tiles.push_back(EMPTY);
                 break;
             case '+':
+                addTilePosition(TILE::WAYPOINT, ulPos);
                 temp_tiles.push_back(WAYPOINT);
                 break;
             case 'n':
+                addTilePosition(TILE::ENEMY, ulPos);
                 temp_tiles.push_back(ENEMY);
                 break;
             case '\n':
@@ -78,7 +97,7 @@ void LevelSystem::loadLevelFile(const string &path, float tileSize) {
                 h++;
                 break;
             default:
-                cout << "Unknown tile: " << c << endl;
+                std::cout << "Unknown tile: " << c << endl;
         }
     }
     if (temp_tiles.size() != (w*h)) {
@@ -87,8 +106,8 @@ void LevelSystem::loadLevelFile(const string &path, float tileSize) {
     _tiles = make_unique<TILE[]>(w*h);
     _width = w;
     _height = h;
-    copy(temp_tiles.begin(), temp_tiles.end(), &_tiles[0]);
-    cout << "Level " << path << " loaded. " << w << "x" << h << endl;
+    std::copy(temp_tiles.begin(), temp_tiles.end(), &_tiles[0]);
+    std::cout << "Level " << path << " loaded. " << w << "x" << h << endl;
     buildSprites();
 }
 
@@ -107,6 +126,10 @@ void LevelSystem::buildSprites() {
 
 Vector2f LevelSystem::getTilePosition(Vector2ul p) {
     return (Vector2f(p.x, p.y)) * _tileSize;
+}
+
+Vector2f LevelSystem::getTileOrigin(Vector2ul p) {
+    return (Vector2f(p.x, p.y)) * _tileSize + Vector2f(_tileSize, _tileSize) * 0.5f;
 }
 
 LevelSystem::TILE LevelSystem::getTile(Vector2ul p) {
@@ -129,7 +152,7 @@ void LevelSystem::Render(RenderWindow &window) {
         window.draw(*_sprites[i]);
     }
 }
-/*
-Vector2f LevelSystem::getStart() {
-    return getTilePosition(_startPos);
-}*/
+
+vector<Vector2ul> LevelSystem::findTiles(TILE tile) {
+    return _tile_positions[tile];
+}
