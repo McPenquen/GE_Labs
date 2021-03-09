@@ -2,6 +2,7 @@
 #include "system_renderer.h"
 #include "game.h"
 #include "cmp_sprite.h"
+#include "cmp_actor_movement.h"
 
 #define GHOSTS_COUNT 4
 
@@ -58,6 +59,7 @@ void GameScene::Load() {
 	s->getShape().setFillColor(Color::Yellow);
 	s->getShape().setOrigin(Vector2f(12.f, 12.f));
 	player->setPosition({200.f, 200.f});
+	player->addComponent<PlayerMovementComponent>();
 	_ents.list.push_back(move(player));
 
 	// Create ghosts
@@ -73,6 +75,7 @@ void GameScene::Load() {
 		s1->getShape().setFillColor(ghost_cols[i % 4]);
 		s1->getShape().setOrigin(Vector2f(12.f, 12.f));
 		ghost->setPosition({400.f + i * 20.f, 440.f});
+		ghost->addComponent<EnemyMovementComponent>();
 		_ents.list.push_back(ghost);
 	}
 

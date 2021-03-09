@@ -17,7 +17,7 @@ protected:
 	float _rotation;
 	bool _alive; // should be update
 	bool _visible; // should be rendered
-	bool _fordeletion; //should be deleted
+	bool _fordeletion = false; //should be deleted
 
 public:
 	Entity();
@@ -48,7 +48,7 @@ public:
 class Component {
 protected:
 	Entity* const _parent;
-	bool _fordeletion;
+	bool _fordeletion = false;
 	explicit Component(Entity* const p);
 
 public:

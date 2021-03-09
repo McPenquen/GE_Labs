@@ -3,13 +3,20 @@
 // Entity
 Entity::Entity() {}
 
-Entity::~Entity() {}
+Entity::~Entity() {
+	for (const auto& c : _components) {
+		c->~Component();
+	}
+}
 
 void Entity::Update(double dt) {
 	if (_alive) {
 		for (auto& c : _components) {
 			c->Update(dt);
 		}
+	}
+	if (_fordeletion) {
+		this->~Entity();
 	}
 }
 
@@ -71,3 +78,9 @@ bool Component::is_fordeletion() const {
 }
 
 Component::Component(Entity* const p) : _parent(p) {}
+
+void Component::Update(double dt) {
+	if (_fordeletion) {
+		this->~Component();
+	}
+}
