@@ -23,12 +23,9 @@ void Update(RenderWindow& window) {
 	static Clock clock;
 	double dt = clock.restart().asSeconds();
 	passedTime += dt;
-	cout << passedTime << endl;
+	
 	activeScene->Update(dt);
 
-	if (passedTime > 20.0) {
-		activeScene->getEnts()[2]->setForDelete();
-	}
 
 	// ESC quit
 	if (Keyboard::isKeyPressed(Keyboard::Escape)) {
