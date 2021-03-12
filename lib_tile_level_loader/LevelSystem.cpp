@@ -97,7 +97,7 @@ void LevelSystem::loadLevelFile(const string &path, float tileSize) {
                 h++;
                 break;
             default:
-                std::cout << "Unknown tile: " << c << endl;
+                std::cout << i <<" - Unknown tile: " << c << endl;
         }
     }
     if (temp_tiles.size() != (w*h)) {

@@ -4,6 +4,7 @@
 #include "cmp_sprite.h"
 #include "cmp_actor_movement.h"
 #include "LevelSystem.h"
+#include "cmp_enemy.h"
 
 #define GHOSTS_COUNT 4
 
@@ -28,7 +29,7 @@ void MenuScene::Render() {
 void MenuScene::Load() {
 	font.loadFromFile("res/fonts/Roboto-Bold.ttf");
 	text.setFont(font);
-	text.setCharacterSize(24);
+	text.setCharacterSize(30);
 	text.setPosition((gameWidth * .4f) - (text.getLocalBounds().width * .4f), 0);
 }
 
@@ -51,14 +52,14 @@ void GameScene::Load() {
 	// Setup text
 	font.loadFromFile("res/fonts/Roboto-Bold.ttf");
 	text.setFont(font);
-	text.setCharacterSize(24);
+	text.setCharacterSize(20);
 	text.setPosition((gameWidth * .4f) - (text.getLocalBounds().width * .4f), 0);
 
 	// Load the level
 	LS::loadLevelFile("res/pacman.txt", 25.0f);
 
 	// Create player
-	auto pl = make_shared<Player>();
+	auto pl = make_shared<Entity>();
 	auto s = pl->addComponent<ShapeComponent>();
 	s->setShape<sf::CircleShape>(12.f);
 	s->getShape().setFillColor(Color::Yellow);
@@ -74,12 +75,12 @@ void GameScene::Load() {
 							 {234, 130, 229} }; // pink Pinky
 
 	for (int i = 0; i < GHOSTS_COUNT; i++) {
-		auto ghost = make_shared<Ghost>();
+		auto ghost = make_shared<Entity>();
 		auto s1 = ghost->addComponent<ShapeComponent>();
 		s1->setShape<sf::CircleShape>(12.f);
 		s1->getShape().setFillColor(ghost_cols[i % 4]);
 		s1->getShape().setOrigin(Vector2f(12.f, 12.f));
-		ghost->addComponent<EnemyMovementComponent>();
+		ghost->addComponent<EnemyAIComponent>();
 		_ents.list.push_back(ghost);
 		ghosts.push_back(_ents.list[_ents.list.size() - 1]);
 	}

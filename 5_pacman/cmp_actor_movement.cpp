@@ -29,9 +29,14 @@ bool ActorMovementComponent::validMove(const Vector2f& pos) {
 void ActorMovementComponent::move(const Vector2f& p) {
 	auto pp = _parent->getPosition() + p;
 
-	if (validMove(pp)) {
-		_parent->setPosition(pp);
+	if (!validMove({pp.x, _parent->getPosition() .y})) {
+		pp.x = _parent->getPosition().x;
 	}
+	if (!validMove({ _parent->getPosition().x, pp.y})) {
+		pp.y = _parent->getPosition().y;
+	}
+
+	_parent->setPosition(pp);
 }
 
 void ActorMovementComponent::move(float x, float y) {

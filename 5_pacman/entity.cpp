@@ -6,12 +6,6 @@
 using namespace std;
 using namespace sf;
 
-// Player
-Player::Player() {}
-
-// Ghost
-Ghost::Ghost() {}
-
 // EntityManager
 void EntityManager::Render() {
 	for (const auto& e : list) {
